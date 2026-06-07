@@ -238,6 +238,26 @@
     .hero-signup input { min-width:unset; }
     .module-unlock { display:none; }
   }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    nav { padding: 10px 16px; }
+    .nav-logo img { width:48px; height:48px; }
+    .nav-logo span { font-size:1.2rem; }
+    .nav-cta { padding:8px 16px; font-size:0.9rem; }
+
+    .finnley-wrap img.sq { width:160px !important; }
+
+    .buildings-grid { grid-template-columns: repeat(2,1fr); gap:12px; }
+    .building-card img { width:90px; }
+    .building-card { padding:14px 10px; }
+
+    .acorn { display:none; }
+
+    #hero h1 { font-size:2.2rem; }
+    .hero-signup { flex-direction:column; align-items:center; }
+    .hero-signup input { min-width:0; width:100%; }
+  }
 </style>
 </head>
 <body>
@@ -448,17 +468,31 @@
       setTimeout(() => input.classList.remove('error'), 2000);
       return;
     }
+    fetch('https://tally.so/r/LZOMej', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ email: email })
+    }).catch(() => {});
     document.getElementById('wlEmail').value = email;
     document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});
   }
 
-  function handleWaitlist() {
+  async function handleWaitlist() {
     const email = document.getElementById('wlEmail').value;
     const input = document.getElementById('wlEmail');
     if (!email || !email.includes('@')) {
       input.classList.add('error');
       setTimeout(() => input.classList.remove('error'), 2000);
       return;
+    }
+    try {
+      await fetch('https://tally.so/r/LZOMej', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ email: email })
+      });
+    } catch (e) {
+      // fail silently
     }
     document.getElementById('wlForm').style.display = 'none';
     document.getElementById('successMsg').style.display = 'flex';
