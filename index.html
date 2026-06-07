@@ -468,10 +468,11 @@
       setTimeout(() => input.classList.remove('error'), 2000);
       return;
     }
-    fetch('https://tally.so/r/LZOMej', {
+    // Submit to Netlify Forms
+    fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ email: email })
+      body: new URLSearchParams({ 'form-name': 'waitlist', email: email })
     }).catch(() => {});
     document.getElementById('wlEmail').value = email;
     document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});
@@ -485,18 +486,21 @@
       setTimeout(() => input.classList.remove('error'), 2000);
       return;
     }
+    // Submit to Netlify Forms
     try {
-      await fetch('https://tally.so/r/LZOMej', {
+      await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ email: email })
+        body: new URLSearchParams({ 'form-name': 'waitlist', email: email })
       });
-    } catch (e) {
-      // fail silently
-    }
+    } catch (e) {}
     document.getElementById('wlForm').style.display = 'none';
     document.getElementById('successMsg').style.display = 'flex';
   }
 </script>
+<!-- Netlify form detection -->
+<form name="waitlist" netlify style="display:none">
+  <input type="email" name="email">
+</form>
 </body>
 </html>
