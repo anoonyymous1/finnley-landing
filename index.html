@@ -149,7 +149,6 @@
     border-radius:22px; padding:20px 14px;
     box-shadow:0 8px 28px rgba(0,0,0,0.14); transition:transform .2s,box-shadow .2s;
   }
-  .building-card:hover { transform:translateY(-6px); box-shadow:0 14px 40px rgba(0,0,0,0.2); }
   .building-card img { width:221px; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
   .b-name { font-family:'Fredoka One',cursive; font-size:0.95rem; color:var(--green-dark); }
   .b-desc { font-size:0.73rem; color:#777; font-weight:600; text-align:center; line-height:1.4; }
@@ -176,14 +175,14 @@
     background:var(--cream); border-radius:18px; padding:14px 18px;
     box-shadow:0 4px 16px rgba(0,0,0,0.07); transition:transform .2s;
   }
-  .module-row:hover { transform:translateX(6px); }
   .module-num { font-family:'Fredoka One',cursive; font-size:1rem; color:var(--green-mid); min-width:26px; }
   .module-icon {
     font-size:1.35rem; width:42px; height:42px; border-radius:12px;
     display:flex; align-items:center; justify-content:center; flex-shrink:0;
   }
-  .module-text h4 { font-family:'Fredoka One',cursive; font-size:0.95rem; color:var(--text-dark); margin-bottom:2px; }
-  .module-text p { font-size:0.74rem; color:#888; font-weight:600; }
+  .module-text h4 { font-family:'Fredoka One',cursive; font-size:0.95rem; color:var(--text-dark); margin-bottom:4px; }
+  .module-text p { font-size:0.78rem; color:#666; font-weight:600; line-height:1.45; }
+  .module-tag { display:inline-block; font-size:0.68rem; font-weight:800; color:var(--green-dark); background:rgba(74,124,47,0.1); border-radius:20px; padding:2px 8px; margin-bottom:4px; letter-spacing:0.3px; }
   .module-unlock {
     margin-left:auto; font-size:0.7rem; font-weight:800; color:var(--green-dark);
     background:#d4edda; padding:4px 10px; border-radius:20px; white-space:nowrap; flex-shrink:0;
@@ -258,6 +257,18 @@
     .hero-signup { flex-direction:column; align-items:center; }
     .hero-signup input { min-width:0; width:100%; }
   }
+
+  /* ROCKET ANIMATION */
+  #rocket-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #rocket-canvas.active { opacity: 1; }
 </style>
 </head>
 <body>
@@ -277,13 +288,13 @@
   <img class="acorn" src="assets/acorn_coin.png" style="bottom:22%;right:5%;width:82px;animation-delay:0.6s;"/>
   <img class="acorn" src="assets/acorn_coin.png" style="bottom:28%;left:6%;width:61px;animation-delay:2.1s;"/>
 
-  <div class="ph-badge fade-in">🚀 Launching June 18 on Product Hunt</div>
+  <div class="ph-badge fade-in">Launching June 18 on Product Hunt</div>
 
   <div class="finnley-wrap fade-in" style="margin-bottom:24px;">
     <div class="speech-bubble" style="margin-bottom:8px;">
       Hi! I'm Finnley<br>Ready to finally make sense of your money?
     </div>
-    <img class="sq" src="assets/squirrel.png" alt="Finnley"/>
+    <img class="sq" src="assets/waving_finnley.png" alt="Finnley"/>
   </div>
 
   <h1 class="fade-in">Learn money.<br><em>Grow your world.</em></h1>
@@ -306,39 +317,43 @@
   <div class="world-inner">
     <div class="finnley-wrap fade-in" style="margin-bottom:8px;">
       <div class="speech-bubble" style="margin-bottom:8px;">
-        Right now I'm all alone in this world... I wonder what it has in store for me.<br>
-        <strong>Every lesson you complete unlocks a new part of our world.</strong>
+        Right now I'm all alone in this world... I wonder what it has in store for me. Will you find out with me?
       </div>
-      <img class="sq" src="assets/squirrel.png" alt="Finnley"/>
+      <img class="sq" src="assets/pleading_finnley.png" alt="Finnley"/>
     </div>
 
     <h2 class="section-title fade-in">Your knowledge builds this world</h2>
 
     <div class="buildings-grid">
       <div class="building-card fade-in" style="transition-delay:.05s">
-        <img src="assets/acorn_house.png" alt="Acorn house"/>
+        <img src="assets/home.png" alt="Home"/>
         <div class="b-name">🏠 Home</div>
-        <div class="b-desc">Unlock after Saving</div>
+        <div class="b-desc">Unlock after Income</div>
       </div>
       <div class="building-card fade-in" style="transition-delay:.15s">
         <img src="assets/grocery_store.png" alt="Grocery"/>
         <div class="b-name">🛒 Grocery</div>
-        <div class="b-desc">Unlock after Budgeting</div>
+        <div class="b-desc">Unlock after Spending</div>
       </div>
       <div class="building-card fade-in" style="transition-delay:.25s">
-        <img src="assets/bank.png" alt="Bank"/>
-        <div class="b-name">🏦 Bank</div>
-        <div class="b-desc">Unlock after Banking</div>
+        <img src="assets/fashion.png" alt="Fashion"/>
+        <div class="b-name">👗 Boutique</div>
+        <div class="b-desc">Unlock after Budgeting</div>
       </div>
       <div class="building-card fade-in" style="transition-delay:.35s">
+        <img src="assets/bank.png" alt="Bank"/>
+        <div class="b-name">🏦 Bank</div>
+        <div class="b-desc">Unlock after Banking Basics</div>
+      </div>
+      <div class="building-card fade-in" style="transition-delay:.45s">
         <img src="assets/stock_market.png" alt="Stocks"/>
         <div class="b-name">📈 Market</div>
         <div class="b-desc">Unlock after Investing</div>
       </div>
-      <div class="building-card fade-in" style="transition-delay:.45s">
-        <img src="assets/fashion.png" alt="Fashion"/>
-        <div class="b-name">👗 Boutique</div>
-        <div class="b-desc">Unlock after Credit</div>
+      <div class="building-card fade-in" style="transition-delay:.5s">
+        <img src="assets/acorn_house.png" alt="Acorn house"/>
+        <div class="b-name">🌰 Acorn House</div>
+        <div class="b-desc">Unlock after Saving</div>
       </div>
       <div class="building-card locked-card fade-in" style="transition-delay:.55s">
         <div style="font-size:2rem">🔒</div>
@@ -360,7 +375,7 @@
         Here's everything we'll learn together 📚<br>
         <span style="font-weight:600;color:#888;font-size:0.88rem">Real skills. No boring textbooks.</span>
       </div>
-      <img class="sq" src="assets/squirrel.png" alt="Finnley" style="width:306px;"/>
+      <img class="sq" src="assets/nerd_finnley.png" alt="Finnley" style="width:306px;"/>
     </div>
 
     <div class="section-label fade-in">The Curriculum</div>
@@ -371,47 +386,42 @@
       <div class="module-row fade-in" style="transition-delay:.05s">
         <span class="module-num">01</span>
         <div class="module-icon" style="background:#fff3cd">💵</div>
-        <div class="module-text"><h4>Income & Your First Paycheck</h4><p>Paystubs, taxes, W-4s, net vs gross</p></div>
-        <span class="module-unlock">🏠 Unlocks Home</span>
+        <div class="module-text"><span class="module-tag">Income & Paystubs</span><h4>Your First Paycheck</h4><p>You worked. You got paid. The number is smaller than you expected. Here's why — and what to do with what's left.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.1s">
         <span class="module-num">02</span>
-        <div class="module-icon" style="background:#d4edda">📊</div>
-        <div class="module-text"><h4>Budgeting for Real Life</h4><p>50/30/20 rule, spending plans, real expenses</p></div>
-        <span class="module-unlock">🛒 Unlocks Grocery</span>
+        <div class="module-icon" style="background:#d4edda">👀</div>
+        <div class="module-text"><span class="module-tag">Spending & Tracking</span><h4>Where Does Your Money Go?</h4><p>You had money. Then suddenly you don't. Track your spending, spot the sneaky drains, and take back control.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.15s">
         <span class="module-num">03</span>
-        <div class="module-icon" style="background:#cce5ff">🏦</div>
-        <div class="module-text"><h4>Banking Basics</h4><p>Checking vs savings, fees, how not to get ripped off</p></div>
-        <span class="module-unlock">🏦 Unlocks Bank</span>
+        <div class="module-icon" style="background:#cce5ff">📋</div>
+        <div class="module-text"><span class="module-tag">Budgeting</span><h4>Making a Plan</h4><p>What if you decided where your money went before you spent it? A budget isn't a punishment — it's just a decision you make in advance.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.2s">
         <span class="module-num">04</span>
-        <div class="module-icon" style="background:#f8d7da">💳</div>
-        <div class="module-text"><h4>Credit & Debt</h4><p>Credit scores, how debt works, what to avoid</p></div>
-        <span class="module-unlock">👗 Unlocks Boutique</span>
+        <div class="module-icon" style="background:#e8f4fd">🏦</div>
+        <div class="module-text"><span class="module-tag">Banking Basics</span><h4>Keeping Your Money Safe</h4><p>Checking vs. savings, how fees quietly drain your account, and why not all banks treat you the same.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.25s">
         <span class="module-num">05</span>
-        <div class="module-icon" style="background:#e2d9f3">📈</div>
-        <div class="module-text"><h4>Investing & Building Wealth</h4><p>Stocks, index funds, 401k, compound interest</p></div>
-        <span class="module-unlock">📈 Unlocks Market</span>
+        <div class="module-icon" style="background:#e2d9f3">🎯</div>
+        <div class="module-text"><span class="module-tag">Goals & Emergency Funds</span><h4>Saving for Something</h4><p>What if you wanted something that costs more than one paycheck? Set goals, build the habit, protect your safety net.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.3s">
         <span class="module-num">06</span>
-        <div class="module-icon" style="background:#fde8d8">🛡️</div>
-        <div class="module-text"><h4>Insurance</h4><p>Health, auto, renters — what you actually need</p></div>
+        <div class="module-icon" style="background:#f8d7da">💳</div>
+        <div class="module-text"><span class="module-tag">Credit Scores & Borrowing</span><h4>Debt & The Credit Trap</h4><p>Someone's offering you something now, pay later. Here's what they're not telling you — and how to build credit without getting buried.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.35s">
         <span class="module-num">07</span>
-        <div class="module-icon" style="background:#d1ecf1">🧾</div>
-        <div class="module-text"><h4>Taxes</h4><p>How to file, W-2s, 1040s, refunds explained</p></div>
+        <div class="module-icon" style="background:#d4edda">📈</div>
+        <div class="module-text"><span class="module-tag">Investing & Compound Interest</span><h4>Growing Your Money</h4><p>What if your money could make more money while you sleep? Stocks, index funds, 401(k)s — and the mistakes that cost beginners the most.</p></div>
       </div>
       <div class="module-row fade-in" style="transition-delay:.4s">
         <span class="module-num">08</span>
-        <div class="module-icon" style="background:#ffeeba">🧠</div>
-        <div class="module-text"><h4>Psychology of Money</h4><p>Why we make bad money decisions — and how to stop</p></div>
+        <div class="module-icon" style="background:#ffeeba">🧾</div>
+        <div class="module-text"><span class="module-tag">Filing & Tax Basics</span><h4>Taxes, Demystified</h4><p>Some of your money was never yours to keep. Here's exactly why — and what you actually have to do every April.</p></div>
       </div>
     </div>
   </div>
@@ -427,11 +437,15 @@
     <div class="speech-bubble" style="margin-bottom:8px;">
       Join me — let's grow together!
     </div>
-    <img class="sq" src="assets/squirrel.png" alt="Finnley" style="width:340px;"/>
+    <img class="sq" src="assets/jumping_happy_finnley.png" alt="Finnley" style="width:340px;"/>
   </div>
 
   <div class="cta-card fade-in">
-    <div class="ph-badge" style="margin-bottom:14px;">🚀 Launching June 18 on Product Hunt</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;">
+      <img src="assets/rocket_launch_finnley.png" alt="Finnley" style="width:130px;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.15));">
+      <div class="ph-badge">Launching June 18 on Product Hunt</div>
+      <img src="assets/rocket_launch_finnley.png" alt="Finnley" style="width:130px;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.15));transform:scaleX(-1);">
+    </div>
     <h2>Start your financial journey today.</h2>
     <p class="desc">Join the waitlist for early access to Finnley — the app that makes financial education actually stick.</p>
 
@@ -498,9 +512,184 @@
     document.getElementById('successMsg').style.display = 'flex';
   }
 </script>
+<canvas id="rocket-canvas"></canvas>
+
 <!-- Netlify form detection -->
 <form name="waitlist" netlify style="display:none">
   <input type="email" name="email">
 </form>
+
+<script>
+(function() {
+  const canvas = document.getElementById('rocket-canvas');
+  const ctx = canvas.getContext('2d');
+  let animating = false;
+  let fired = false;
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const rocketImg = new Image();
+  rocketImg.src = 'assets/rocket_launch_animation.png';
+
+  // Cubic bezier helper
+  function cbez(p, x0,y0, x1,y1, x2,y2, x3,y3) {
+    const m = 1 - p;
+    return {
+      x: m*m*m*x0 + 3*m*m*p*x1 + 3*m*p*p*x2 + p*p*p*x3,
+      y: m*m*m*y0 + 3*m*m*p*y1 + 3*m*p*p*y2 + p*p*p*y3
+    };
+  }
+
+  function getPos(t) {
+    const W = canvas.width, H = canvas.height;
+    // Loop center — rocket will loop here
+    const lx = W * 0.52, ly = H * 0.42, r = 80;
+    // Loop entry/exit point: top of circle (lx, ly - r), tangent points RIGHT
+
+    if (t < 0.38) {
+      // Entry arc: from off-screen left, curving up to top of loop, arriving horizontal
+      const p = t / 0.38;
+      return cbez(p,
+        -150, H * 0.72,
+        W * 0.1, H * 0.58,
+        lx - r * 1.5, ly - r,
+        lx, ly - r
+      );
+    } else if (t < 0.70) {
+      // Full clockwise loop
+      const p = (t - 0.38) / 0.32;
+      const a = -Math.PI / 2 + p * Math.PI * 2;
+      return { x: lx + r * Math.cos(a), y: ly + r * Math.sin(a) };
+    } else {
+      // Exit: from top of loop, curving right and off screen, departing horizontal
+      const p = (t - 0.70) / 0.30;
+      return cbez(p,
+        lx, ly - r,
+        lx + r * 1.5, ly - r,
+        W * 0.82, H * 0.30,
+        W + 150, H * 0.22
+      );
+    }
+  }
+
+  function getAngle(t) {
+    const a = getPos(Math.max(0, t - 0.005));
+    const b = getPos(Math.min(1, t + 0.005));
+    return Math.atan2(b.y - a.y, b.x - a.x);
+  }
+
+  // Trail stores {x, y, age}
+  const trail = [];
+  let t = 0, lastTime = null;
+
+  function drawTrail() {
+    if (trail.length < 2) return;
+
+    // Draw as one smooth quadratic-curve path per segment for continuity
+    // Use midpoints between trail pts as curve anchors (Chaikin-style smoothing)
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    for (let i = 1; i < trail.length; i++) {
+      const prev = trail[i - 1];
+      const curr = trail[i];
+      const alpha = Math.max(0, 1 - curr.age / 2.5);
+      const width = alpha * 11 + 2;
+
+      // Smooth midpoint curve
+      let cpx, cpy, ex, ey;
+      if (i < trail.length - 1) {
+        const next = trail[i + 1];
+        cpx = curr.x; cpy = curr.y;
+        ex = (curr.x + next.x) / 2; ey = (curr.y + next.y) / 2;
+      } else {
+        cpx = curr.x; cpy = curr.y;
+        ex = curr.x; ey = curr.y;
+      }
+
+      const g = ctx.createLinearGradient(prev.x, prev.y, ex, ey);
+      const a0 = Math.max(0, 1 - prev.age / 2.5);
+      const a1 = Math.max(0, 1 - curr.age / 2.5);
+      g.addColorStop(0, `rgba(255,168,38,${a0 * 0.9})`);
+      g.addColorStop(1, `rgba(255,100,60,${a1 * 0.7})`);
+
+      ctx.beginPath();
+      ctx.moveTo((prev.x + curr.x)/2, (prev.y + curr.y)/2);
+      ctx.quadraticCurveTo(curr.x, curr.y, ex, ey);
+      ctx.strokeStyle = g;
+      ctx.lineWidth = width;
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function animate(ts) {
+    if (!lastTime) lastTime = ts;
+    const dt = Math.min((ts - lastTime) / 1000, 0.05);
+    lastTime = ts;
+    t += dt * 0.206;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const tc = Math.min(t, 1);
+    const pos = getPos(tc);
+    const angle = getAngle(tc);
+
+    trail.push({ x: pos.x, y: pos.y, age: 0 });
+    for (let i = trail.length - 1; i >= 0; i--) {
+      trail[i].age += dt;
+      if (trail[i].age > 2.5) trail.splice(i, 1);
+    }
+
+    drawTrail();
+
+    if (rocketImg.complete) {
+      const size = 160;
+      ctx.save();
+      ctx.translate(pos.x, pos.y);
+      ctx.rotate(angle);
+      ctx.drawImage(rocketImg, -size/2, -size/2, size, size);
+      ctx.restore();
+    }
+
+    if (t < 1.4) {
+      requestAnimationFrame(animate);
+    } else {
+      canvas.style.transition = 'opacity 0.7s';
+      canvas.style.opacity = '0';
+      setTimeout(() => {
+        canvas.classList.remove('active');
+        trail.length = 0;
+        t = 0; lastTime = null; animating = false;
+      }, 700);
+    }
+  }
+
+  function launchRocket() {
+    if (animating) return;
+    animating = true;
+    trail.length = 0;
+    t = 0; lastTime = null;
+    canvas.style.transition = 'none';
+    canvas.style.opacity = '1';
+    canvas.classList.add('active');
+    requestAnimationFrame(animate);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !fired) {
+        fired = true;
+        setTimeout(launchRocket, 500);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(document.getElementById('waitlist'));
+})();
+</script>
 </body>
 </html>
